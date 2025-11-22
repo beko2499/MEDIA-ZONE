@@ -1,0 +1,35 @@
+.announcementBar {
+    background: linear-gradient(90deg, #FF1E1E 0%, #CC1818 100%);
+    color: #FFFFFF;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .announcementBar {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.75rem;
+    }
+}

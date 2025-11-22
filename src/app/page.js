@@ -1,66 +1,44 @@
-import Image from "next/image";
+"use client";
+
+import Hero from "@/components/Hero/Hero";
 import styles from "./page.module.css";
+import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Home() {
+  const { t } = useLanguage();
+
+  const categories = [
+    { name: t('nav.games'), image: '/games.jpg' },
+    { name: t('nav.movies'), image: '/movies.jpg' },
+    { name: t('nav.anime'), image: '/anime.jpg' },
+    { name: t('nav.tech'), image: '/tech.jpg' },
+    { name: 'Accessories', image: '/accessories.jpg' },
+    { name: 'Software', image: '/softwor.jpg' },
+  ];
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className={`${styles.main} logo-background`}>
+      <Hero />
+
+      <section className={styles.categories}>
+        <div className="container">
+          <h2 className={styles.sectionTitle}>{t('home.featuredCategories')} <span>{t('home.categoriesSpan')}</span></h2>
+          <div className={styles.grid}>
+            {categories.map((cat, index) => (
+              <Link href={`/shop?category=${cat.name.toLowerCase()}`} key={index} className={styles.card}>
+                <div className={styles.imageWrapper}>
+                  <img src={cat.image} alt={cat.name} className={styles.cardImage} />
+                </div>
+                <div className={styles.cardContent}>
+                  <h3>{cat.name}</h3>
+                  <span className={styles.explore}>{t('home.explore')} &rarr;</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }

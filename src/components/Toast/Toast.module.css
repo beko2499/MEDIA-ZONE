@@ -1,0 +1,150 @@
+.toastContainer {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.toast {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    min-width: 300px;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    animation: slideIn 0.3s ease-out;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.toast:hover {
+    transform: translateX(-4px);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toastIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.toastMessage {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.toastClose {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 18px;
+    line-height: 1;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.toastClose:hover {
+    color: #ffffff;
+}
+
+/* Toast Types */
+.success {
+    border-left: 4px solid #10b981;
+}
+
+.success .toastIcon {
+    background-color: #10b981;
+    color: #ffffff;
+}
+
+.error {
+    border-left: 4px solid #ef4444;
+}
+
+.error .toastIcon {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.warning .toastIcon {
+    background-color: #f59e0b;
+    color: #ffffff;
+}
+
+.info {
+    border-left: 4px solid #3b82f6;
+}
+
+.info .toastIcon {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .toastContainer {
+        right: 10px;
+        left: 10px;
+        top: 70px;
+    }
+
+    .toast {
+        min-width: auto;
+        max-width: none;
+    }
+}
+
+/* RTL Support */
+[dir="rtl"] .toastContainer {
+    right: auto;
+    left: 20px;
+}
+
+[dir="rtl"] .toast {
+    border-left: none;
+    border-right: 4px solid;
+}
+
+[dir="rtl"] .toast:hover {
+    transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] .toastContainer {
+        left: 10px;
+        right: 10px;
+    }
+}

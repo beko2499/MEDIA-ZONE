@@ -1,0 +1,22 @@
+# User-agent: *
+# Allow: /
+
+# Sitemap location
+Sitemap: https://www.mediazonestore.com/sitemap.xml
+
+# Allow all pages
+User-agent: *
+Disallow:
+
+# Allow search engines to crawl
+Allow: /
+Allow: /shop
+Allow: /about
+Allow: /contact
+Allow: /faq
+Allow: /terms
+Allow: /privacy
+Allow: /product/
+
+# Crawl-delay
+Crawl-delay: 1
