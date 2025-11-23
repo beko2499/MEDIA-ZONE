@@ -35,7 +35,8 @@ body {
   position: relative;
 }
 
-body {
+/* Apply background only to non-admin pages */
+body:not(.admin-page) {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
     url('/lo_1.png');
@@ -46,9 +47,9 @@ body {
   background-color: #000;
 }
 
-body>* {
-  position: relative;
-  z-index: 1;
+/* Only apply transparent backgrounds to non-admin pages */
+body:not(.admin-page)>* {
+  background: transparent !important;
 }
 
 body>* {
@@ -65,13 +66,6 @@ h5,
 h6 {
   color: var(--color-text);
   font-weight: 600;
-}
-
-/* Logo Background Utility */
-
-
-body>* {
-  background: transparent !important;
 }
 
 a {

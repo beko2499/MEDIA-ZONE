@@ -84,6 +84,133 @@ export const translations = {
             messagePlaceholder: 'How can we help you?',
             sendBtn: 'Send Message',
         },
+        admin: {
+            nav: {
+                dashboard: "Dashboard",
+                products: "Products",
+                orders: "Orders",
+                logout: "Logout",
+                welcome: "Welcome",
+                adminRole: "Administrator",
+                mediaZone: "Media Zone",
+                adminDashboard: "Admin Dashboard"
+            },
+            dashboard: {
+                welcomeTitle: "Welcome to Media Zone Dashboard",
+                welcomeSubtitle: "Here's an overview of your store's performance",
+                totalProducts: "Total Products",
+                totalOrders: "Total Orders",
+                pendingOrders: "Pending Orders",
+                totalRevenue: "Total Revenue",
+                quickActions: "Quick Actions",
+                manageProducts: "Manage Products",
+                manageProductsDesc: "Add, edit, or delete products from your inventory.",
+                manageOrders: "Manage Orders",
+                manageOrdersDesc: "View and process customer orders efficiently.",
+                viewDetails: "View Details",
+                loading: "Loading Dashboard..."
+            },
+            products: {
+                title: "Product Management",
+                subtitle: "products in inventory",
+                addProduct: "+ Add Product",
+                editProduct: "Edit Product",
+                newProduct: "New Product",
+                cancel: "Cancel",
+                save: "Save",
+                saving: "Saving...",
+                update: "Update Product",
+                delete: "Delete",
+                form: {
+                    title: "Title",
+                    category: "Category",
+                    price: "Price ($)",
+                    stock: "Stock",
+                    description: "Description",
+                    image: "Product Image",
+                    noImage: "No Image",
+                    uploadHelp: "Recommended: 800x800px, Max 5MB",
+                    placeholderTitle: "Product Name",
+                    placeholderCategory: "Category",
+                    placeholderDesc: "Product details..."
+                },
+                table: {
+                    image: "Image",
+                    title: "Title",
+                    category: "Category",
+                    price: "Price",
+                    stock: "Stock",
+                    actions: "Actions",
+                    noProducts: "No products found.",
+                    loading: "Loading..."
+                },
+                notifications: {
+                    added: "Product added!",
+                    updated: "Product updated!",
+                    deleted: "Product deleted!",
+                    deleteConfirm: "Are you sure you want to delete this product?",
+                    fillFields: "Please fill in all required fields",
+                    selectImage: "Please select an image",
+                    uploadError: "Image upload failed",
+                    saveError: "Failed to save product",
+                    deleteError: "Failed to delete product"
+                }
+            },
+            orders: {
+                title: "Order Management",
+                subtitle: "View and manage customer orders",
+                loading: "Loading dashboard...",
+                summary: {
+                    total: "Total Orders",
+                    pending: "Pending Orders",
+                    completed: "Completed Orders",
+                    revenue: "Total Revenue"
+                },
+                table: {
+                    id: "Order ID",
+                    customer: "Customer",
+                    items: "Items",
+                    total: "Total",
+                    date: "Date",
+                    status: "Status",
+                    actions: "Actions",
+                    view: "View",
+                    noOrders: "No orders found.",
+                    itemsCount: "items"
+                },
+                drawer: {
+                    title: "Order Details",
+                    updateStatus: "Update Status",
+                    customerInfo: "Customer Information",
+                    name: "Name",
+                    phone: "Phone",
+                    address: "Address",
+                    notes: "Notes",
+                    orderItems: "Order Items",
+                    qty: "Qty",
+                    totalAmount: "Total Amount",
+                    paymentInfo: "Payment Information",
+                    method: "Method",
+                    proof: "Payment Proof"
+                },
+                status: {
+                    pending: "Pending",
+                    confirmed: "Confirmed",
+                    delivered: "Delivered",
+                    completed: "Completed",
+                    cancelled: "Cancelled"
+                }
+            },
+            login: {
+                title: "Media Zone",
+                subtitle: "Admin Dashboard",
+                signIn: "Sign In",
+                email: "Email",
+                password: "Password",
+                loginBtn: "Sign In",
+                error: "Failed to login. Please check your credentials."
+            }
+        },
     },
     ar: {
         nav: {
@@ -169,6 +296,133 @@ export const translations = {
             messageLabel: 'الرسالة',
             messagePlaceholder: 'كيف يمكننا مساعدتك؟',
             sendBtn: 'إرسال الرسالة',
+        },
+        admin: {
+            nav: {
+                dashboard: "لوحة التحكم",
+                products: "المنتجات",
+                orders: "الطلبات",
+                logout: "تسجيل الخروج",
+                welcome: "مرحباً",
+                adminRole: "مسؤول",
+                mediaZone: "ميديا زون",
+                adminDashboard: "لوحة تحكم المدير"
+            },
+            dashboard: {
+                welcomeTitle: "مرحباً بك في لوحة تحكم ميديا زون",
+                welcomeSubtitle: "إليك نظرة عامة على أداء متجرك",
+                totalProducts: "إجمالي المنتجات",
+                totalOrders: "إجمالي الطلبات",
+                pendingOrders: "الطلبات المعلقة",
+                totalRevenue: "إجمالي الإيرادات",
+                quickActions: "إجراءات سريعة",
+                manageProducts: "إدارة المنتجات",
+                manageProductsDesc: "أضف، عدل، أو احذف المنتجات من مخزونك.",
+                manageOrders: "إدارة الطلبات",
+                manageOrdersDesc: "عرض ومعالجة طلبات العملاء بكفاءة.",
+                viewDetails: "عرض التفاصيل",
+                loading: "جاري تحميل لوحة التحكم..."
+            },
+            products: {
+                title: "إدارة المنتجات",
+                subtitle: "منتج في المخزون",
+                addProduct: "+ إضافة منتج",
+                editProduct: "تعديل المنتج",
+                newProduct: "منتج جديد",
+                cancel: "إلغاء",
+                save: "حفظ",
+                saving: "جاري الحفظ...",
+                update: "تحديث المنتج",
+                delete: "حذف",
+                form: {
+                    title: "العنوان",
+                    category: "القسم",
+                    price: "السعر ($)",
+                    stock: "المخزون",
+                    description: "الوصف",
+                    image: "صورة المنتج",
+                    noImage: "لا توجد صورة",
+                    uploadHelp: "موصى به: 800x800 بكسل، الحد الأقصى 5 ميجابايت",
+                    placeholderTitle: "اسم المنتج",
+                    placeholderCategory: "القسم",
+                    placeholderDesc: "تفاصيل المنتج..."
+                },
+                table: {
+                    image: "الصورة",
+                    title: "العنوان",
+                    category: "القسم",
+                    price: "السعر",
+                    stock: "المخزون",
+                    actions: "الإجراءات",
+                    noProducts: "لا توجد منتجات.",
+                    loading: "جاري التحميل..."
+                },
+                notifications: {
+                    added: "تم إضافة المنتج!",
+                    updated: "تم تحديث المنتج!",
+                    deleted: "تم حذف المنتج!",
+                    deleteConfirm: "هل أنت متأكد أنك تريد حذف هذا المنتج؟",
+                    fillFields: "يرجى ملء جميع الحقول المطلوبة",
+                    selectImage: "يرجى اختيار صورة",
+                    uploadError: "فشل رفع الصورة",
+                    saveError: "فشل حفظ المنتج",
+                    deleteError: "فشل حذف المنتج"
+                }
+            },
+            orders: {
+                title: "إدارة الطلبات",
+                subtitle: "عرض وإدارة طلبات العملاء",
+                loading: "جاري تحميل لوحة التحكم...",
+                summary: {
+                    total: "إجمالي الطلبات",
+                    pending: "الطلبات المعلقة",
+                    completed: "الطلبات المكتملة",
+                    revenue: "إجمالي الإيرادات"
+                },
+                table: {
+                    id: "رقم الطلب",
+                    customer: "العميل",
+                    items: "العناصر",
+                    total: "المجموع",
+                    date: "التاريخ",
+                    status: "الحالة",
+                    actions: "الإجراءات",
+                    view: "عرض",
+                    noOrders: "لا توجد طلبات.",
+                    itemsCount: "عنصر"
+                },
+                drawer: {
+                    title: "تفاصيل الطلب",
+                    updateStatus: "تحديث الحالة",
+                    customerInfo: "معلومات العميل",
+                    name: "الاسم",
+                    phone: "الهاتف",
+                    address: "العنوان",
+                    notes: "ملاحظات",
+                    orderItems: "عناصر الطلب",
+                    qty: "الكمية",
+                    totalAmount: "المبلغ الإجمالي",
+                    paymentInfo: "معلومات الدفع",
+                    method: "الطريقة",
+                    proof: "إشعار الدفع"
+                },
+                status: {
+                    pending: "قيد الانتظار",
+                    confirmed: "تم التأكيد",
+                    delivered: "تم التوصيل",
+                    completed: "مكتمل",
+                    cancelled: "ملغي"
+                }
+            },
+            login: {
+                title: "ميديا زون",
+                subtitle: "لوحة تحكم المدير",
+                signIn: "تسجيل الدخول",
+                email: "البريد الإلكتروني",
+                password: "كلمة المرور",
+                loginBtn: "دخول",
+                error: "فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد."
+            }
         },
     },
 };

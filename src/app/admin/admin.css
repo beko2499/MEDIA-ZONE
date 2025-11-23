@@ -1,0 +1,466 @@
+/* Admin Dashboard Styles */
+
+/* Colors */
+.admin-page .bg-neutral-950 {
+    background-color: #0a0a0a !important;
+}
+
+.admin-page .bg-neutral-900 {
+    background-color: #171717 !important;
+}
+
+.admin-page .bg-neutral-800 {
+    background-color: #262626 !important;
+}
+
+.admin-page .bg-neutral-700 {
+    background-color: #404040 !important;
+}
+
+.admin-page .bg-black {
+    background-color: #000 !important;
+}
+
+.admin-page .text-white {
+    color: #fff !important;
+}
+
+.admin-page .text-neutral-300 {
+    color: #d4d4d4 !important;
+}
+
+.admin-page .text-neutral-400 {
+    color: #a3a3a3 !important;
+}
+
+.admin-page .text-neutral-500 {
+    color: #737373 !important;
+}
+
+.admin-page .border-neutral-800 {
+    border-color: #262626 !important;
+}
+
+.admin-page .border-neutral-700 {
+    border-color: #404040 !important;
+}
+
+/* Layout */
+.admin-page .min-h-screen {
+    min-height: 100vh;
+}
+
+.admin-page .flex {
+    display: flex !important;
+}
+
+.admin-page .items-center {
+    align-items: center !important;
+}
+
+.admin-page .justify-center {
+    justify-content: center !important;
+}
+
+.admin-page .justify-between {
+    justify-content: space-between !important;
+}
+
+.admin-page .gap-2 {
+    gap: 0.5rem !important;
+}
+
+.admin-page .gap-3 {
+    gap: 0.75rem !important;
+}
+
+.admin-page .gap-4 {
+    gap: 1rem !important;
+}
+
+.admin-page .gap-6 {
+    gap: 1.5rem !important;
+}
+
+/* Sizing */
+.admin-page .w-full {
+    width: 100% !important;
+}
+
+.admin-page .h-full {
+    height: 100% !important;
+}
+
+.admin-page .w-6 {
+    width: 1.5rem !important;
+}
+
+.admin-page .h-6 {
+    height: 1.5rem !important;
+}
+
+.admin-page .w-12 {
+    width: 3rem !important;
+}
+
+.admin-page .h-12 {
+    height: 3rem !important;
+}
+
+.admin-page .w-16 {
+    width: 4rem !important;
+}
+
+.admin-page .h-16 {
+    height: 4rem !important;
+}
+
+/* Spacing */
+.admin-page .p-4 {
+    padding: 1rem !important;
+}
+
+.admin-page .p-6 {
+    padding: 1.5rem !important;
+}
+
+.admin-page .p-8 {
+    padding: 2rem !important;
+}
+
+.admin-page .mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.admin-page .mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.admin-page .mb-6 {
+    margin-bottom: 1.5rem !important;
+}
+
+.admin-page .mb-8 {
+    margin-bottom: 2rem !important;
+}
+
+/* Borders */
+.admin-page .border {
+    border-width: 1px !important;
+}
+
+.admin-page .rounded-lg {
+    border-radius: 0.5rem !important;
+}
+
+.admin-page .rounded-xl {
+    border-radius: 0.75rem !important;
+}
+
+.admin-page .rounded-full {
+    border-radius: 9999px !important;
+}
+
+/* Typography */
+.admin-page .text-sm {
+    font-size: 0.875rem !important;
+}
+
+.admin-page .text-lg {
+    font-size: 1.125rem !important;
+}
+
+.admin-page .text-xl {
+    font-size: 1.25rem !important;
+}
+
+.admin-page .text-2xl {
+    font-size: 1.5rem !important;
+}
+
+.admin-page .text-3xl {
+    font-size: 1.875rem !important;
+}
+
+.admin-page .font-medium {
+    font-weight: 500 !important;
+}
+
+.admin-page .font-semibold {
+    font-weight: 600 !important;
+}
+
+.admin-page .font-bold {
+    font-weight: 700 !important;
+}
+
+.admin-page .text-center {
+    text-align: center !important;
+}
+
+/* Effects */
+.admin-page .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.admin-page .transition {
+    transition: all 0.2s !important;
+}
+
+/* Animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.admin-page thead {
+    background-color: #000;
+}
+
+.admin-page tbody tr {
+    border-bottom: 1px solid #262626;
+}
+
+.admin-page tbody tr:hover {
+    background-color: rgba(38, 38, 38, 0.5);
+}
+
+.admin-page th,
+.admin-page td {
+    .admin-page .text-neutral-500 {
+        color: #737373 !important;
+    }
+
+    .admin-page .border-neutral-800 {
+        border-color: #262626 !important;
+    }
+
+    .admin-page .border-neutral-700 {
+        border-color: #404040 !important;
+    }
+
+    /* Layout */
+    .admin-page .min-h-screen {
+        min-height: 100vh;
+    }
+
+    .admin-page .flex {
+        display: flex !important;
+    }
+
+    .admin-page .items-center {
+        align-items: center !important;
+    }
+
+    .admin-page .justify-center {
+        justify-content: center !important;
+    }
+
+    .admin-page .justify-between {
+        justify-content: space-between !important;
+    }
+
+    .admin-page .gap-2 {
+        gap: 0.5rem !important;
+    }
+
+    .admin-page .gap-3 {
+        gap: 0.75rem !important;
+    }
+
+    .admin-page .gap-4 {
+        gap: 1rem !important;
+    }
+
+    .admin-page .gap-6 {
+        gap: 1.5rem !important;
+    }
+
+    /* Sizing */
+    .admin-page .w-full {
+        width: 100% !important;
+    }
+
+    .admin-page .h-full {
+        height: 100% !important;
+    }
+
+    .admin-page .w-6 {
+        width: 1.5rem !important;
+    }
+
+    .admin-page .h-6 {
+        height: 1.5rem !important;
+    }
+
+    .admin-page .w-12 {
+        width: 3rem !important;
+    }
+
+    .admin-page .h-12 {
+        height: 3rem !important;
+    }
+
+    .admin-page .w-16 {
+        width: 4rem !important;
+    }
+
+    .admin-page .h-16 {
+        height: 4rem !important;
+    }
+
+    /* Spacing */
+    .admin-page .p-4 {
+        padding: 1rem !important;
+    }
+
+    .admin-page .p-6 {
+        padding: 1.5rem !important;
+    }
+
+    .admin-page .p-8 {
+        padding: 2rem !important;
+    }
+
+    .admin-page .mb-2 {
+        margin-bottom: 0.5rem !important;
+    }
+
+    .admin-page .mb-4 {
+        margin-bottom: 1rem !important;
+    }
+
+    .admin-page .mb-6 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .admin-page .mb-8 {
+        margin-bottom: 2rem !important;
+    }
+
+    /* Borders */
+    .admin-page .border {
+        border-width: 1px !important;
+    }
+
+    .admin-page .rounded-lg {
+        border-radius: 0.5rem !important;
+    }
+
+    .admin-page .rounded-xl {
+        border-radius: 0.75rem !important;
+    }
+
+    .admin-page .rounded-full {
+        border-radius: 9999px !important;
+    }
+
+    /* Typography */
+    .admin-page .text-sm {
+        font-size: 0.875rem !important;
+    }
+
+    .admin-page .text-lg {
+        font-size: 1.125rem !important;
+    }
+
+    .admin-page .text-xl {
+        font-size: 1.25rem !important;
+    }
+
+    .admin-page .text-2xl {
+        font-size: 1.5rem !important;
+    }
+
+    .admin-page .text-3xl {
+        font-size: 1.875rem !important;
+    }
+
+    .admin-page .font-medium {
+        font-weight: 500 !important;
+    }
+
+    .admin-page .font-semibold {
+        font-weight: 600 !important;
+    }
+
+    .admin-page .font-bold {
+        font-weight: 700 !important;
+    }
+
+    .admin-page .text-center {
+        text-align: center !important;
+    }
+
+    /* Effects */
+    .admin-page .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .admin-page .transition {
+        transition: all 0.2s !important;
+    }
+
+    /* Animation */
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .admin-page thead {
+        background-color: #000;
+    }
+
+    .admin-page tbody tr {
+        border-bottom: 1px solid #262626;
+    }
+
+    .admin-page tbody tr:hover {
+        background-color: rgba(38, 38, 38, 0.5);
+    }
+
+    .admin-page th,
+    .admin-page td {
+        padding: 1rem;
+        text-align: left;
+    }
+
+    /* Focus states */
+    .admin-page input:focus,
+    .admin-page textarea:focus,
+    .admin-page select:focus {
+        outline: 2px solid #dc2626;
+        outline-offset: 2px;
+    }
+
+    /* Fire Animation */
+    @keyframes fire {
+        0% {
+            text-shadow:
+                0 0 4px #fefcc9,
+                0 -5px 4px #feec85,
+                2px -10px 6px #ffae34,
+                -2px -15px 11px #ec760c,
+                2px -25px 18px #cd4606,
+                0 -30px 25px #973716,
+                1px -35px 30px #451b0e;
+        }
+
+        100% {
+            text-shadow:
+                0 0 4px #fefcc9,
+                0 -5px 4px #feec85,
+                -2px -10px 6px #ffae34,
+                2px -15px 11px #ec760c,
+                -2px -25px 18px #cd4606,
+                0 -30px 25px #973716,
+                1px -35px 30px #451b0e;
+        }
+    }
+
+    .fire-text {
+        color: #fff;
+        animation: fire 1s ease-in-out infinite alternate;
+    }

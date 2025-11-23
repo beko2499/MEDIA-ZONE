@@ -1,26 +1,41 @@
 'use client';
 
-import { use } from 'react';
+import { use, useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { useLanguage } from '@/context/LanguageContext';
 
-// Mock Data
-const products = [
-    { id: 1, name: 'Elden Ring', category: 'Games', price: 36000, image: '/EldenRing.jpg' },
-    { id: 2, name: 'God of War Ragnarok', category: 'Games', price: 42000 },
-    { id: 3, name: 'MacBook Pro 16"', category: 'Tech', price: 1500000 },
-    { id: 4, name: 'PS5 Controller', category: 'Accessories', price: 45000 },
-    { id: 5, name: 'Attack on Titan Vol. 1', category: 'Anime', price: 12000 },
-    { id: 6, name: 'Adobe Creative Cloud', category: 'Software', price: 36000 },
-    { id: 7, name: 'Gaming Mouse', category: 'Accessories', price: 30000 },
-    { id: 8, name: 'Mechanical Keyboard', category: 'Tech', price: 78000 },
-];
-
 export default function Shop({ searchParams: searchParamsPromise }) {
     const { t } = useLanguage();
     const searchParams = use(searchParamsPromise);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await fetch('/api/products');
+                if (!res.ok) throw new Error('Failed to fetch products');
+                const data = await res.json();
+
+                // Map data if necessary, though API returns compatible structure
+                const productsData = data.map(p => ({
+                    ...p,
+                    name: p.title, // Ensure compatibility with existing components using 'name'
+                    image: p.imageUrl // Ensure compatibility with existing components using 'image'
+                }));
+
+                setProducts(productsData);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     let filteredProducts = products;
 
@@ -51,7 +66,7 @@ export default function Shop({ searchParams: searchParamsPromise }) {
                     <div className={styles.filterSection}>
                         <h3 className={styles.filterTitle}>{t('shop.categories')}</h3>
                         <ul className={styles.filterList}>
-                            {['Games', 'Movies', 'Anime', 'Tech'].map(cat => (
+                            {['Games', 'Movies', 'Anime', 'Tech', 'Accessories', 'Software'].map(cat => (
                                 <li key={cat} className={styles.filterItem}>
                                     <Link href={`/shop?category=${cat.toLowerCase()}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%' }}>
                                         <input
@@ -84,7 +99,9 @@ export default function Shop({ searchParams: searchParamsPromise }) {
                 </aside>
 
                 <main className={styles.mainContent}>
-                    {filteredProducts.length > 0 ? (
+                    {loading ? (
+                        <div style={{ textAlign: 'center', padding: '2rem' }}>Loading products...</div>
+                    ) : filteredProducts.length > 0 ? (
                         <div className={styles.grid}>
                             {filteredProducts.map((product) => (
                                 <ProductCard key={product.id} product={product} />

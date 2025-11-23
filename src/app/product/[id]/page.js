@@ -1,6 +1,6 @@
 'use client';
 
-import { use } from 'react';
+import { use, useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
@@ -8,31 +8,77 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 
-// Mock Data (In a real app, fetch based on ID)
-const getProduct = (id) => {
-    const products = [
-        { id: 1, name: 'Elden Ring', category: 'Games', price: 36000, image: '/EldenRing.jpg', description: 'The Golden Order has been broken. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.' },
-        { id: 2, name: 'God of War Ragnarok', category: 'Games', price: 42000, description: 'Embark on an epic and heartfelt journey as Kratos and Atreus struggle with holding on and letting go.' },
-        { id: 3, name: 'MacBook Pro 16"', category: 'Tech', price: 1500000, description: 'The most powerful MacBook Pro ever is here. With the blazing-fast M1 Pro or M1 Max chip — the first Apple silicon designed for pros.' },
-        // Add more mock data as needed to match Shop page
-    ];
-    return products.find(p => p.id === parseInt(id)) || products[0];
-};
-
 export default function ProductDetails({ params: paramsPromise }) {
     const { t, language } = useLanguage();
     const { addToCart, isInCart } = useCart();
     const { success } = useToast();
     const params = use(paramsPromise);
     const { id } = params;
-    const product = getProduct(id);
+
+    const [product, setProduct] = useState(null);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch(`/api/products/${id}`);
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        console.log("No such product!");
+                        setProduct(null);
+                    } else {
+                        throw new Error('Failed to fetch product');
+                    }
+                    return;
+                }
+
+                const data = await res.json();
+                const productData = { ...data, name: data.title }; // Map title to name
+                setProduct(productData);
+                if (productData.category) {
+                    fetchRelatedProducts(productData.category, productData.id);
+                }
+            } catch (error) {
+                console.error("Error fetching product:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchRelatedProducts = async (category, currentId) => {
+            try {
+                // Fetch all products and filter (since we don't have a complex query API yet)
+                // Ideally, the API should support filtering, but for local JSON this is fine
+                const res = await fetch('/api/products');
+                if (!res.ok) throw new Error('Failed to fetch related products');
+
+                const allProducts = await res.json();
+                const related = allProducts
+                    .filter(p => p.category === category && p.id !== currentId)
+                    .map(p => ({ ...p, name: p.title }))
+                    .slice(0, 3);
+
+                setRelatedProducts(related);
+            } catch (error) {
+                console.error("Error fetching related products:", error);
+            }
+        };
+
+        if (id) {
+            fetchProduct();
+        }
+    }, [id]);
 
     const formatCurrency = (amount) => {
+        if (!amount) return '';
         const formatted = amount.toLocaleString('en-US');
         return language === 'ar' ? `${formatted} جنيه` : `${formatted} SDG`;
     };
 
     const handleAddToCart = () => {
+        if (!product) return;
         addToCart(product);
         success(
             language === 'ar'
@@ -42,6 +88,9 @@ export default function ProductDetails({ params: paramsPromise }) {
         );
     };
 
+    if (loading) return <div className="container" style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
+    if (!product) return <div className="container" style={{ padding: '2rem', textAlign: 'center' }}>Product not found</div>;
+
     const inCart = isInCart(product.id);
 
     const breadcrumbItems = [
@@ -50,19 +99,6 @@ export default function ProductDetails({ params: paramsPromise }) {
         { label: product.name, href: `/product/${product.id}` }
     ];
 
-    // Get related products (same category, different id)
-    const allProducts = [
-        { id: 1, name: 'Elden Ring', category: 'Games', price: 36000 },
-        { id: 2, name: 'God of War Ragnarok', category: 'Games', price: 42000 },
-        { id: 3, name: 'MacBook Pro 16"', category: 'Tech', price: 1500000 },
-        { id: 4, name: 'PS5 Controller', category: 'Accessories', price: 45000 },
-        { id: 5, name: 'Attack on Titan Vol. 1', category: 'Anime', price: 12000 },
-    ];
-
-    const relatedProducts = allProducts
-        .filter(p => p.category === product.category && p.id !== product.id)
-        .slice(0, 3);
-
     return (
         <>
             <div className={styles.container}>
@@ -70,10 +106,12 @@ export default function ProductDetails({ params: paramsPromise }) {
                     <Breadcrumb items={breadcrumbItems} />
                 </div>
                 <div className={styles.imageSection}>
-                    {product.image ? (
-                        <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} />
+                    {product.imageUrl ? (
+                        <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} />
                     ) : (
-                        product.name + ' Image'
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#eee', borderRadius: '12px' }}>
+                            {product.name} Image
+                        </div>
                     )}
                 </div>
 
@@ -112,7 +150,13 @@ export default function ProductDetails({ params: paramsPromise }) {
                         <div className={styles.relatedGrid}>
                             {relatedProducts.map((relatedProduct) => (
                                 <Link key={relatedProduct.id} href={`/product/${relatedProduct.id}`} className={styles.relatedCard}>
-                                    <div className={styles.relatedImage}>{relatedProduct.name}</div>
+                                    <div className={styles.relatedImage}>
+                                        {relatedProduct.imageUrl ? (
+                                            <img src={relatedProduct.imageUrl} alt={relatedProduct.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        ) : (
+                                            relatedProduct.name
+                                        )}
+                                    </div>
                                     <div className={styles.relatedInfo}>
                                         <h3>{relatedProduct.name}</h3>
                                         <p className={styles.relatedPrice}>{formatCurrency(relatedProduct.price)}</p>

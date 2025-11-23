@@ -13,9 +13,16 @@ export default function Checkout() {
     const { t, language } = useLanguage();
     const { success, error } = useToast();
 
-    const [paymentMethod, setPaymentMethod] = useState('');
+    const [formData, setFormData] = useState({
+        fullName: '',
+        phone: '',
+        address: '',
+        notes: '',
+        paymentMethod: '',
+        whatsappNumber: '' // Kept for compatibility if needed, but 'phone' is primary now
+    });
+
     const [receiptImage, setReceiptImage] = useState(null);
-    const [whatsappNumber, setWhatsappNumber] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Redirect if cart is empty
@@ -28,6 +35,11 @@ export default function Checkout() {
     const formatCurrency = (amount) => {
         const formatted = amount.toLocaleString('en-US');
         return language === 'ar' ? `${formatted} جنيه` : `${formatted} SDG`;
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleFileChange = (e) => {
@@ -48,8 +60,8 @@ export default function Checkout() {
         e.preventDefault();
 
         // Validation
-        if (!paymentMethod) {
-            error(language === 'ar' ? 'يرجى اختيار طريقة الدفع' : 'Please select a payment method');
+        if (!formData.fullName || !formData.phone || !formData.address || !formData.paymentMethod) {
+            error(language === 'ar' ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
             return;
         }
 
@@ -58,26 +70,80 @@ export default function Checkout() {
             return;
         }
 
-        if (!whatsappNumber || !/^\d+$/.test(whatsappNumber)) {
-            error(language === 'ar' ? 'يرجى إدخال رقم واتساب صحيح' : 'Please enter a valid WhatsApp number');
-            return;
-        }
-
         setIsSubmitting(true);
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            // 1. Upload Payment Proof
+            const imageFormData = new FormData();
+            imageFormData.append('file', receiptImage);
 
-        // Success
-        success(language === 'ar' ? '✔ تم إرسال طلبك بنجاح!' : '✔ Your order has been submitted successfully!');
+            const uploadRes = await fetch('/api/upload', {
+                method: 'POST',
+                body: imageFormData
+            });
 
-        // Clear cart and redirect
-        clearCart();
-        router.push('/');
+            if (!uploadRes.ok) throw new Error('Image upload failed');
+            const { url: proofUrl } = await uploadRes.json();
+
+            // 2. Create Order
+            const total = getCartTotal();
+            const orderData = {
+                items: cartItems.map(item => ({
+                    productId: item.id,
+                    title: item.name || item.title,
+                    price: item.price,
+                    qty: item.quantity || 1
+                })),
+                total,
+                ...formData,
+                paymentProofImage: proofUrl,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+
+            const orderRes = await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!orderRes.ok) throw new Error('Order submission failed');
+
+            // 3. WhatsApp Redirection
+            const productsList = cartItems.map(item => `- ${item.name} (x${item.quantity})`).join('\n');
+            const whatsappMessage = `طلب جديد من موقع Media Zone:
+الاسم: ${formData.fullName}
+الهاتف: ${formData.phone}
+العنوان: ${formData.address}
+
+المنتجات:
+${productsList}
+
+السعر النهائي: ${formatCurrency(total)}
+ملاحظة: ${formData.notes || 'لا يوجد'}
+
+رابط الإثبات: ${window.location.origin}${proofUrl}`;
+
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const adminPhone = '+249116134260';
+            const whatsappUrl = `https://wa.me/${adminPhone}?text=${encodedMessage}`;
+
+            // 4. Success & Cleanup
+            success(language === 'ar' ? '✔ تم إرسال طلبك بنجاح!' : '✔ Your order has been submitted successfully!');
+            clearCart();
+
+            // Redirect to WhatsApp
+            window.location.href = whatsappUrl;
+
+        } catch (err) {
+            console.error("Order submission error:", err);
+            error(language === 'ar' ? 'حدث خطأ أثناء إرسال الطلب' : 'Error submitting order');
+            setIsSubmitting(false);
+        }
     };
 
     if (cartItems.length === 0) {
-        return null; // Or a loading spinner while redirecting
+        return null;
     }
 
     return (
@@ -90,10 +156,58 @@ export default function Checkout() {
                 {/* Payment & Info Section */}
                 <div className={styles.section}>
                     <h2 className={styles.sectionTitle}>
-                        {language === 'ar' ? 'معلومات الدفع' : 'Payment Information'}
+                        {language === 'ar' ? 'معلومات الطلب' : 'Order Information'}
                     </h2>
 
                     <form onSubmit={handleSubmit}>
+                        {/* Personal Info */}
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>{language === 'ar' ? 'الاسم الكامل' : 'Full Name'}</label>
+                            <input
+                                type="text"
+                                name="fullName"
+                                value={formData.fullName}
+                                onChange={handleInputChange}
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>{language === 'ar' ? 'رقم الهاتف' : 'Phone Number'}</label>
+                            <input
+                                type="tel"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>{language === 'ar' ? 'العنوان' : 'Address'}</label>
+                            <textarea
+                                name="address"
+                                value={formData.address}
+                                onChange={handleInputChange}
+                                className={styles.textarea}
+                                required
+                                rows={3}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>{language === 'ar' ? 'ملاحظات (اختياري)' : 'Notes (Optional)'}</label>
+                            <textarea
+                                name="notes"
+                                value={formData.notes}
+                                onChange={handleInputChange}
+                                className={styles.textarea}
+                                rows={2}
+                            />
+                        </div>
+
                         {/* Payment Methods */}
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
@@ -103,14 +217,14 @@ export default function Checkout() {
                                 {['Bankak (بنكك)', 'Fawry (فوري)', 'Sahal (ساهل)'].map((method) => (
                                     <label
                                         key={method}
-                                        className={`${styles.paymentOption} ${paymentMethod === method ? styles.selected : ''}`}
+                                        className={`${styles.paymentOption} ${formData.paymentMethod === method ? styles.selected : ''}`}
                                     >
                                         <input
                                             type="radio"
                                             name="paymentMethod"
                                             value={method}
-                                            checked={paymentMethod === method}
-                                            onChange={(e) => setPaymentMethod(e.target.value)}
+                                            checked={formData.paymentMethod === method}
+                                            onChange={handleInputChange}
                                             className={styles.radio}
                                         />
                                         <span>{method}</span>
@@ -119,8 +233,8 @@ export default function Checkout() {
                             </div>
                         </div>
 
-                        {/* Receipt Upload - Only show if payment method selected */}
-                        {paymentMethod && (
+                        {/* Receipt Upload */}
+                        {formData.paymentMethod && (
                             <div className={`${styles.formGroup} ${styles.uploadSection}`}>
                                 <label className={styles.label}>
                                     {language === 'ar' ? 'إرفاق إثبات الدفع' : 'Upload Payment Receipt'}
@@ -140,22 +254,6 @@ export default function Checkout() {
                                 )}
                             </div>
                         )}
-
-                        {/* WhatsApp Number */}
-                        <div className={styles.formGroup}>
-                            <label htmlFor="whatsapp" className={styles.label}>
-                                {language === 'ar' ? 'ادخل رقم الواتساب' : 'Enter your WhatsApp number'}
-                            </label>
-                            <input
-                                type="tel"
-                                id="whatsapp"
-                                value={whatsappNumber}
-                                onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, ''))}
-                                placeholder="0912345678"
-                                className={styles.input}
-                                required
-                            />
-                        </div>
 
                         <button
                             type="submit"
@@ -198,3 +296,4 @@ export default function Checkout() {
         </div>
     );
 }
+

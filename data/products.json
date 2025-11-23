@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "title": "Test Mobile No Image",
+      "category": "Tech",
+      "price": 99,
+      "description": "No image test",
+      "imageUrl": "/uploads/1763926144686_photo_2025_11_06_08_17_26.jpg",
+      "stock": 5,
+      "id": "2",
+      "createdAt": "2025-11-23T19:29:04.698Z",
+      "updatedAt": "2025-11-23T19:29:04.698Z"
+    }
+  ],
+  "lastId": 2
+}
